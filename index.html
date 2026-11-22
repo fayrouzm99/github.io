@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fayrouz Mohamed – Game Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;800&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f3fb;--surface:#ffffff;--ink:#1b1f3a;--muted:#5b6082;--line:#d9d7ea;
+  --teal:#13a898;--sun:#ffc933;--night:#1b1f3a;--night-ink:#f4f3fb;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#12152b;--surface:#1b1f3a;--ink:#f1f0fa;--muted:#a3a8cc;--line:#2d3256;--night:#0b0d1d;}
+}
+:root[data-theme="dark"]{--bg:#12152b;--surface:#1b1f3a;--ink:#f1f0fa;--muted:#a3a8cc;--line:#2d3256;--night:#0b0d1d;}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.05rem/1.6 Figtree,system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque",Figtree,system-ui,sans-serif;line-height:1.1;margin:0}
+a{color:inherit}
+a:focus-visible,button:focus-visible,canvas:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+.hero{display:grid;gap:32px;align-items:center;padding:56px 0 48px}
+@media(min-width:760px){.hero{grid-template-columns:1.1fr 1fr}}
+.hero h1{font-size:clamp(2.6rem,8vw,4.6rem);font-weight:800;letter-spacing:-.02em}
+.hero p{color:var(--muted);max-width:34em;margin:16px 0 24px}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-block;padding:12px 20px;border-radius:10px;font-weight:600;text-decoration:none;border:2px solid var(--ink)}
+.btn.main{background:var(--ink);color:var(--bg)}
+.screen{background:var(--night);border-radius:14px;padding:10px;border:2px solid var(--ink)}
+canvas{display:block;width:100%;height:auto;border-radius:8px;image-rendering:pixelated;touch-action:manipulation;cursor:pointer}
+.hint{color:var(--night-ink);font-size:.85rem;margin:8px 4px 2px;opacity:.8}
+section{padding:40px 0}
+section>h2{font-size:clamp(1.8rem,5vw,2.4rem);margin-bottom:24px}
+.proj{display:grid;gap:24px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:24px}
+@media(min-width:760px){.proj{grid-template-columns:1fr 1.1fr;padding:24px}.proj.flip .screen{order:2}}
+.shot{aspect-ratio:16/10;border-radius:10px;display:grid;place-items:center;text-align:center;padding:16px;font-size:.9rem;color:var(--night-ink);position:relative;overflow:hidden}
+.shot.a{background:linear-gradient(180deg,#2a3170 0%,#1b1f3a 70%)}
+.shot.a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:26%;background:var(--teal)}
+.shot.a i{position:absolute;bottom:26%;left:22%;width:34px;height:34px;background:var(--sun);border-radius:6px}
+.shot.b{background:var(--night);background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:28px 28px}
+.shot span{position:relative;background:rgba(11,13,29,.75);padding:6px 10px;border-radius:6px}
+.proj h3{font-size:1.6rem;margin-bottom:6px}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 14px;padding:0;list-style:none}
+.tags li{border:1px solid var(--line);border-radius:999px;padding:2px 12px;font-size:.88rem;color:var(--muted)}
+.proj p{margin:0 0 12px}
+.links{display:flex;gap:16px;flex-wrap:wrap;font-weight:600}
+.links a{text-decoration-color:var(--teal);text-decoration-thickness:2px;text-underline-offset:4px}
+.about{display:grid;gap:24px}
+@media(min-width:760px){.about{grid-template-columns:1.2fr 1fr}}
+.about ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.about li{border-left:4px solid var(--sun);padding-left:12px}
+footer{padding:32px 0 48px;color:var(--muted);border-top:1px solid var(--line);margin-top:24px}
+footer a{font-weight:600;color:var(--ink)}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="hero">
+    <div>
+      <h1>Fayrouz Mohamed</h1>
+      <p>I’m a gameplay programmer who builds tight, readable game systems. I ship small, finished games and the tools that make them easier to build.</p>
+      <div class="btns">
+        <a class="btn main" href="#projects">See my games</a>
+        <a class="btn" href="#contact">Get in touch</a>
+      </div>
+    </div>
+    <div class="screen">
+      <canvas id="g" width="320" height="180" tabindex="0" aria-label="Mini game: press space or tap to jump over the blocks"></canvas>
+      <p class="hint" id="hint">Tap or press Space to jump.</p>
+    </div>
+  </header>
+
+  <section id="projects">
+    <h2>Selected projects</h2>
+
+    <article class="proj">
+      <div class="screen"><canvas id="g1" width="320" height="200" tabindex="0" style="touch-action:none" aria-label="Star Catcher game"></canvas><p class="hint" id="h1">Tap to start. Drag or use the arrow keys.</p></div>
+      <div>
+        <h3>Star Catcher</h3>
+        <ul class="tags"><li>Arcade</li><li>JavaScript</li><li>HTML5 Canvas</li></ul>
+        <p>Catch the falling stars and dodge the red blocks. You lose a life for every missed star or block you catch, and the game speeds up as your score grows.</p>
+        <p><strong>Features:</strong> mouse, touch and keyboard controls, difficulty scaling, lives and score.</p>
+        <div class="links"><a href="#">Source on GitHub</a><a href="#">Play on itch.io</a></div>
+      </div>
+    </article>
+
+    <article class="proj flip">
+      <div class="screen"><canvas id="g2" width="320" height="200" tabindex="0" style="touch-action:none" aria-label="Grid Snake game"></canvas><p class="hint" id="h2">Tap to start. Swipe or use the arrow keys.</p></div>
+      <div>
+        <h3>Grid Snake</h3>
+        <ul class="tags"><li>Puzzle</li><li>JavaScript</li><li>Grid logic</li></ul>
+        <p>A classic snake game on a tile grid. Eat stars to grow, and avoid the walls and your own tail.</p>
+        <p><strong>Features:</strong> grid-based movement, swipe and keyboard input, collision checks and random food spawning.</p>
+        <div class="links"><a href="#">Source on GitHub</a><a href="#">Play on itch.io</a></div>
+      </div>
+    </article>
+  </section>
+
+  <section class="about" id="about">
+    <div>
+      <h2>About me</h2>
+      <p>Write two or three sentences here: where you are, what you build best, and what kind of team you want to join.</p>
+    </div>
+    <div>
+      <h2>Skills</h2>
+      <ul><li>C#, C++ and Python</li><li>Unity and Godot</li><li>Gameplay, AI and UI systems</li><li>Git and clean, documented code</li></ul>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <p>Open to work. Find me on <a href="#">LinkedIn</a> and <a href="https://github.com/fayrouzm99">GitHub</a>.</p>
+  </footer>
+</main>
+
+<script>
+(function(){
+  var c=document.getElementById('g'),x=c.getContext('2d'),hint=document.getElementById('hint');
+  var W=320,H=180,G=150,p,obs,speed,score,best=0,state='idle',t=0;
+  var cs=getComputedStyle(document.documentElement);
+  function col(n,f){return cs.getPropertyValue(n).trim()||f}
+  function reset(){p={y:G-20,vy:0};obs=[];speed=2.6;score=0;t=0}
+  function jump(){
+    if(state==='idle'||state==='over'){reset();state='run';hint.textContent='Jump over the blocks.';}
+    if(p.y>=G-20){p.vy=-9.2}
+  }
+  function key(e){if(e.code==='Space'||e.code==='ArrowUp'){e.preventDefault();jump()}}
+  c.addEventListener('pointerdown',function(e){e.preventDefault();c.focus({preventScroll:true});jump()});
+  c.addEventListener('keydown',key);
+  function step(){
+    if(state==='run'){
+      t++;p.vy+=0.55;p.y+=p.vy;if(p.y>G-20){p.y=G-20;p.vy=0}
+      if(t%Math.max(48,95-Math.floor(score/80))===0){obs.push({x:W,w:14+Math.random()*12,h:16+Math.random()*16})}
+      for(var i=0;i<obs.length;i++){
+        var o=obs[i];o.x-=speed;
+        if(40<o.x+o.w&&60>o.x&&p.y+20>G-o.h){state='over';best=Math.max(best,Math.floor(score/10));hint.textContent='Score '+Math.floor(score/10)+' (best '+best+'). Tap to retry.'}
+      }
+      obs=obs.filter(function(o){return o.x>-40});
+      score++;speed=2.6+score/900;
+    }
+    draw();requestAnimationFrame(step);
+  }
+  function draw(){
+    x.fillStyle='#232a63';x.fillRect(0,0,W,H);
+    x.fillStyle=col('--teal','#13a898');x.fillRect(0,G,W,H-G);
+    x.fillStyle='#f4f3fb';
+    for(var i=0;i<4;i++){x.fillRect(((i*97-t*0.3)%(W+40)+W+40)%(W+40)-20,30+i*17,24,3)}
+    x.fillStyle='#ff6b6b';
+    obs.forEach(function(o){x.fillRect(o.x,G-o.h,o.w,o.h)});
+    x.fillStyle=col('--sun','#ffc933');x.fillRect(40,p.y,20,20);
+    x.fillStyle='#1b1f3a';x.fillRect(51,p.y+5,4,4);
+    x.fillStyle='#f4f3fb';x.font='12px monospace';x.fillText(Math.floor(score/10),W-40,18);
+  }
+  reset();
+  var rm=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(rm){hint.textContent='Tap or press Space to play.'}
+  step();
+})();
+(function(){
+  var c=document.getElementById('g1'),x=c.getContext('2d'),h=document.getElementById('h1'),W=320,H=200;
+  var px,items,lives,score,state='idle',t=0,keys={};
+  function reset(){px=W/2;items=[];lives=3;score=0;t=0}
+  function start(){if(state!=='run'){reset();state='run';h.textContent='Catch stars, dodge red.'}}
+  function mv(e){var r=c.getBoundingClientRect();px=(e.clientX-r.left)/r.width*W}
+  c.addEventListener('pointerdown',function(e){e.preventDefault();c.focus({preventScroll:true});start();mv(e)});
+  c.addEventListener('pointermove',function(e){if(state==='run'&&e.buttons!==0||e.pointerType==='mouse'&&state==='run')mv(e)});
+  c.addEventListener('keydown',function(e){if(e.key.indexOf('Arrow')===0||e.code==='Space'){e.preventDefault();keys[e.key]=1;start()}});
+  c.addEventListener('keyup',function(e){keys[e.key]=0});
+  function loop(){
+    if(state==='run'){
+      t++;if(keys.ArrowLeft)px-=4;if(keys.ArrowRight)px+=4;px=Math.max(22,Math.min(W-22,px));
+      if(t%28===0)items.push({x:10+Math.random()*(W-20),y:-10,bad:Math.random()<.3,v:1.6+Math.random()*1.2+score/60});
+      items.forEach(function(o){o.y+=o.v;
+        if(!o.done&&o.y>H-26&&o.y<H-8&&Math.abs(o.x-px)<24){o.done=1;if(o.bad)lives--;else score++}
+        else if(!o.done&&o.y>H){o.done=1;if(!o.bad)lives--}});
+      items=items.filter(function(o){return !o.done});
+      if(lives<=0){state='over';h.textContent='Score '+score+'. Tap to play again.'}
+    }
+    draw();requestAnimationFrame(loop);
+  }
+  function draw(){
+    x.fillStyle='#232a63';x.fillRect(0,0,W,H);
+    items.forEach(function(o){x.fillStyle=o.bad?'#ff6b6b':'#ffc933';x.fillRect(o.x-6,o.y-6,12,12)});
+    x.fillStyle='#13a898';x.fillRect(px-22,H-14,44,8);
+    x.fillStyle='#f4f3fb';x.font='12px monospace';x.fillText('Score '+score+'   Lives '+lives,8,16);
+    if(state==='idle')x.fillText('Tap to start',116,100);
+  }
+  reset();loop();
+})();
+(function(){
+  var c=document.getElementById('g2'),x=c.getContext('2d'),h=document.getElementById('h2'),C=20,CW=16,CH=10;
+  var s,d,nd,f,state='idle',sx=0,sy=0;
+  function food(){do{f={x:Math.floor(Math.random()*CW),y:Math.floor(Math.random()*CH)}}while(s.some(function(a){return a.x===f.x&&a.y===f.y}))}
+  function reset(){s=[{x:5,y:5},{x:4,y:5},{x:3,y:5}];d={x:1,y:0};nd=d;food()}
+  function dir(a,b){if(!(a===-d.x&&b===-d.y))nd={x:a,y:b}}
+  function begin(){if(state!=='run'){reset();state='run';h.textContent='Eat the stars.'}}
+  c.addEventListener('keydown',function(e){
+    var m={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]}[e.key];
+    if(m){e.preventDefault();begin();dir(m[0],m[1])}else if(e.code==='Space'){e.preventDefault();begin()}
+  });
+  c.addEventListener('pointerdown',function(e){e.preventDefault();c.focus({preventScroll:true});sx=e.clientX;sy=e.clientY;begin()});
+  c.addEventListener('pointerup',function(e){
+    var dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)<14&&Math.abs(dy)<14)return;
+    if(Math.abs(dx)>Math.abs(dy))dir(dx>0?1:-1,0);else dir(0,dy>0?1:-1);
+  });
+  function draw(){
+    x.fillStyle='#1b1f3a';x.fillRect(0,0,320,200);
+    x.fillStyle='#ffc933';x.fillRect(f.x*C+4,f.y*C+4,12,12);
+    s.forEach(function(a,i){x.fillStyle=i?'#13a898':'#7ff0e0';x.fillRect(a.x*C+1,a.y*C+1,C-2,C-2)});
+    if(state==='idle'){x.fillStyle='#f4f3fb';x.font='12px monospace';x.fillText('Tap or press Space to start',72,100)}
+  }
+  setInterval(function(){
+    if(state==='run'){
+      d=nd;var hd={x:s[0].x+d.x,y:s[0].y+d.y};
+      if(hd.x<0||hd.y<0||hd.x>=CW||hd.y>=CH||s.some(function(a){return a.x===hd.x&&a.y===hd.y})){state='over';h.textContent='Length '+s.length+'. Tap to retry.'}
+      else{s.unshift(hd);if(hd.x===f.x&&hd.y===f.y)food();else s.pop()}
+    }
+    draw();
+  },120);
+  reset();draw();
+})();
+</script>
+</body>
+</html>
